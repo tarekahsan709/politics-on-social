@@ -1,0 +1,155 @@
+{
+  "dashboard_title": "Voter Analytics Dashboard",
+  "position_json": {
+    "DASHBOARD_VERSION_KEY": "v2",
+    "GRID_ID": {
+      "children": ["ROW-1", "ROW-2", "ROW-3"],
+      "id": "GRID_ID",
+      "type": "GRID"
+    },
+    "ROW-1": {
+      "children": ["CHART-1", "CHART-2", "CHART-3"],
+      "id": "ROW-1",
+      "meta": {
+        "background": "BACKGROUND_TRANSPARENT"
+      },
+      "type": "ROW"
+    },
+    "ROW-2": {
+      "children": ["CHART-4", "CHART-5"],
+      "id": "ROW-2",
+      "meta": {
+        "background": "BACKGROUND_TRANSPARENT"
+      },
+      "type": "ROW"
+    },
+    "ROW-3": {
+      "children": ["CHART-6"],
+      "id": "ROW-3",
+      "meta": {
+        "background": "BACKGROUND_TRANSPARENT"
+      },
+      "type": "ROW"
+    }
+  },
+  "metadata": {
+    "native_filter_configuration": [
+      {
+        "id": "NATIVE_FILTER-1",
+        "name": "Constituency",
+        "filterType": "filter_select",
+        "targets": [{"datasetId": 1, "column": {"name": "constituency_name"}}],
+        "defaultDataMask": {
+          "filterState": {
+            "value": null
+          }
+        },
+        "cascadeParentIds": [],
+        "scope": {
+          "rootPath": ["ROOT_ID"],
+          "excluded": []
+        }
+      },
+      {
+        "id": "NATIVE_FILTER-2",
+        "name": "Age Group",
+        "filterType": "filter_select",
+        "targets": [{"datasetId": 1, "column": {"name": "age_group"}}],
+        "defaultDataMask": {
+          "filterState": {
+            "value": null
+          }
+        },
+        "cascadeParentIds": [],
+        "scope": {
+          "rootPath": ["ROOT_ID"],
+          "excluded": []
+        }
+      }
+    ],
+    "refresh_frequency": 1800,
+    "color_scheme": "supersetColors",
+    "label_colors": {
+      "Male": "#1f77b4",
+      "Female": "#ff7f0e",
+      "18-25": "#2ca02c",
+      "26-35": "#d62728",
+      "36-50": "#9467bd",
+      "51+": "#8c564b"
+    }
+  },
+  "charts": [
+    {
+      "id": "CHART-1",
+      "chartType": "big_number_total",
+      "chartName": "Total Registered Voters",
+      "datasourceId": 1,
+      "query": {
+        "metrics": ["sum__total_voters"],
+        "adhoc_filters": []
+      }
+    },
+    {
+      "id": "CHART-2",
+      "chartType": "pie",
+      "chartName": "Voter Distribution by Gender",
+      "datasourceId": 1,
+      "query": {
+        "metrics": ["sum__count"],
+        "groupby": ["gender"],
+        "adhoc_filters": []
+      }
+    },
+    {
+      "id": "CHART-3",
+      "chartType": "bar",
+      "chartName": "Age Group Distribution",
+      "datasourceId": 1,
+      "query": {
+        "metrics": ["sum__count"],
+        "groupby": ["age_group"],
+        "adhoc_filters": [],
+        "order_by_cols": ["age_group"]
+      }
+    },
+    {
+      "id": "CHART-4",
+      "chartType": "pivot_table",
+      "chartName": "Constituency-wise Voter Breakdown",
+      "datasourceId": 1,
+      "query": {
+        "metrics": ["sum__count"],
+        "groupby": ["constituency_name", "gender", "age_group"],
+        "adhoc_filters": []
+      }
+    },
+    {
+      "id": "CHART-5",
+      "chartType": "heatmap",
+      "chartName": "Voter Density Heatmap",
+      "datasourceId": 1,
+      "query": {
+        "metrics": ["sum__voter_density"],
+        "all_columns_x": ["district"],
+        "all_columns_y": ["constituency_name"],
+        "adhoc_filters": []
+      }
+    },
+    {
+      "id": "CHART-6",
+      "chartType": "constituency_map",
+      "chartName": "Bangladesh Constituency Map",
+      "datasourceId": 1,
+      "query": {
+        "metrics": ["sum__total_voters"],
+        "groupby": ["constituency_id", "constituency_name"],
+        "adhoc_filters": []
+      },
+      "customConfig": {
+        "mapType": "bangladesh",
+        "showLabels": true,
+        "colorScheme": "greenRed"
+      }
+    }
+  ]
+}
